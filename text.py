@@ -4,13 +4,16 @@ import time
 import importlib
 import argparse
 import datetime
+from collections import defaultdict
 
 import numpy as np
 
 import torch
-from torch import nn, optim
+from torch import nn, optim, tensor
 
-from data import MonoTextData
+from bpemb import BPEmb
+
+from data import MonoTextData, VocabEntry
 from modules import VAE
 from modules import LSTMEncoder, LSTMDecoder
 from logger import Logger
@@ -246,13 +249,25 @@ def main(args):
 
     print(args)
 
+    if hasattr(args, 'bpemb'):
+        bp = BPEmb(**args.bpemb, add_pad_emb=True)
+
     opt_dict = {"not_improved": 0, "lr": 1., "best_loss": 1e4}
 
-    train_data = MonoTextData(args.train_data, label=args.label)
+    if hasattr(args, 'bpemb'):
+        # use bpemb lookup to associate vocab with ids. 0 = <unk>
+        class Defaulter(dict):
+            def __missing__(self, item):
+                return 0
+        word2idx = Defaulter(
+                **{item: bp.emb.vocab[item].index for item in bp.emb.vocab})
+        train_data = MonoTextData(args.train_data, label=args.label,
+                vocab=word2idx)
+    else:
+        train_data = MonoTextData(args.train_data, label=args.label)
 
     vocab = train_data.vocab
     vocab_size = len(vocab)
-
     val_data = MonoTextData(args.val_data, label=args.label, vocab=vocab)
     test_data = MonoTextData(args.test_data, label=args.label, vocab=vocab)
 
@@ -264,7 +279,11 @@ def main(args):
     log_niter = (len(train_data)//args.batch_size)//10
 
     model_init = uniform_initializer(0.01)
-    emb_init = uniform_initializer(0.1)
+    if hasattr(args, 'bpemb'):
+        # load pre-trained bpemb vectors
+        emb_init = lambda x: x.data.copy_(tensor(bp.vectors))
+    else:
+        emb_init = uniform_initializer(0.1)
 
     device = torch.device("cuda" if args.cuda else "cpu")
     args.device = device
@@ -291,7 +310,6 @@ def main(args):
         with torch.no_grad():
             if args.decode_input != "":
                 decode_data = MonoTextData(args.decode_input, vocab=vocab)
-
                 reconstruct(vae, decode_data, args.decoding_strategy,
                     os.path.join(save_dir, path + ".rec"), args.device)
             else:
