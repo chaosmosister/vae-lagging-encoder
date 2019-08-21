@@ -86,7 +86,7 @@ class MonoTextData(object):
 
         # if it looks like a gzip file, use gzip.open
         if fname.endswith('.gz'):
-            opener = lambda x: gzip.open(fname, 'rt')
+            opener = lambda x: gzip.open(fname, 'rt', encoding='utf8')
         else:
             opener = lambda x: open(x)
 
