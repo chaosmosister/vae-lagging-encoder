@@ -9,7 +9,7 @@ model_path = "./models/poetry_1m_sample/2019-08-20T03:32:25.569351-012.pt"
 
 @runway.setup
 def setup():
-    use_gpu = True if torch.cuda.is_available() else False
+    use_gpu = torch.cuda.is_available()
     config_file = "config.config_poetry_1m_sample"
     params = argparse.Namespace(**importlib.import_module(config_file).params)
     model = BPEmbVaeSampler(lang=params.bpemb['lang'],
@@ -25,9 +25,7 @@ def setup():
         },
         outputs={'out': runway.text})
 def generate(model, inputs):
-    z = torch.from_numpy(inputs['z']).float().unsqueeze(0)
-    if torch.cuda.is_available():
-        z.cuda()
+    z = torch.from_numpy(inputs['z']).float().unsqueeze(0).to(model.device)
     temperature = inputs['temperature']
     with torch.no_grad():
         return model.sample(z, temperature)[0]

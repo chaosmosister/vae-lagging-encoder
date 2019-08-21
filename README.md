@@ -23,6 +23,8 @@ Please contact junxianh@cs.cmu.edu if you have any questions.
 
 ## Additions by Allison
 
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/aparrish/vae-lagging-encoder/master?filepath=vae-sampler.ipynb)
+
 Hi, Allison Parrish here. Huge thanks to the researchers for making this code
 available! This fork has a few additional pieces I added in, to make the
 code a bit easier to work with out-of-the-box for my own creative uses, and
@@ -46,7 +48,8 @@ hopefully for others' uses as well.
   easy to programmatically sample and reconstruct sentences from the included
   pre-trained model, including code to stitch text back together from the
   `BPEmb` tokens.  The code in `vae-sampler.ipynb` takes the `BPEmbVaeSampler`
-  class through its paces.
+  class through its paces. [You can run this notebook on
+  Binder!](https://mybinder.org/v2/gh/aparrish/vae-lagging-encoder/master?filepath=vae-sampler.ipynb)
 * The model is [Runway](https://runwayml.com/)-ready; the included
   `runway_model.py` and `runway.yml` make it possible to build a Runway image
   and run the model in the Runway app. (Thank you Runway for supporting my work
