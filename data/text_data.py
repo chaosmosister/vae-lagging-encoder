@@ -3,6 +3,7 @@ import torch
 import numpy as np
 
 from collections import defaultdict
+import gzip
 
 
 class VocabEntry(object):
@@ -83,7 +84,13 @@ class MonoTextData(object):
             vocab['</s>'] = 2
             vocab['<unk>'] = 3
 
-        with open(fname) as fin:
+        # if it looks like a gzip file, use gzip.open
+        if fname.endswith('.gz'):
+            opener = lambda x: gzip.open(fname, 'rt')
+        else:
+            opener = lambda x: open(x)
+
+        with opener(fname) as fin:
             for line in fin:
                 if label:
                     split_line = line.split('\t')

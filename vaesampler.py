@@ -20,7 +20,7 @@ class VAESampler:
         self.params = params
         params.enc_nh = params.dec_nh # not sure why this is necessary...
 
-        self.train_data = MonoTextData(params.train_data, label=False)
+        self.train_data = self._load_train_data()
         self.vocab = self.train_data.vocab
         self.vocab_size = len(self.vocab)
 
@@ -42,6 +42,10 @@ class VAESampler:
         else:
             self.vae.load_state_dict(torch.load(self.decode_from,
                 map_location='cpu'))
+
+    def _load_train_data(self):
+        train_data = MonoTextData(self.params.train_data, label=False)
+        return train_data
 
     def to_s(self, decoded):
         return [' '.join(item) for item in decoded]
@@ -90,8 +94,19 @@ class VAESampler:
 class BPEmbVaeSampler(VAESampler):
 
     def __init__(self, lang, vs, dim, decode_from, params, cuda=False):
-        self.bp = BPEmb(lang=lang, vs=vs, dim=dim)
+        self.bp = BPEmb(lang=lang, vs=vs, dim=dim, add_pad_emb=True)
         super().__init__(decode_from, params, cuda)
+
+    def _load_train_data(self):
+        class Defaulter(dict):
+            def __missing__(self, item):
+                return 0
+        word2idx = Defaulter(
+                **{item: self.bp.emb.vocab[item].index \
+                        for item in self.bp.emb.vocab})
+        train_data = MonoTextData(self.params.train_data, label=False,
+                vocab=word2idx)
+        return train_data
 
     def to_s(self, decoded):
         out = []
