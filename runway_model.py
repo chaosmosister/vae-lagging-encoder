@@ -26,6 +26,8 @@ def setup():
         outputs={'out': runway.text})
 def generate(model, inputs):
     z = torch.from_numpy(inputs['z']).float().unsqueeze(0)
+    if torch.cuda.is_available():
+        z.cuda()
     temperature = inputs['temperature']
     with torch.no_grad():
         return model.sample(z, temperature)[0]
