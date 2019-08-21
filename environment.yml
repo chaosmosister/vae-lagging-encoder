@@ -1,0 +1,11 @@
+name: rwet
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - torch
+  - torchvision
+  - numpy
+  - tqdm
+  - pip:
+    - bpemb

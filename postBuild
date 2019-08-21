@@ -1,0 +1,3 @@
+python download_bpemb.py
+curl -L -O http://static.decontextualize.com/vae-lagging-poetry_1m_sample-dataset-and-model.zip
+unzip -o vae-lagging-poetry_1m_sample-dataset-and-model.zip

@@ -28,15 +28,20 @@ available! This fork has a few additional pieces I added in, to make the
 code a bit easier to work with out-of-the-box for my own creative uses, and
 hopefully for others' uses as well.
 
-* I included a model pre-trained on 500k randomly selected lines from my
-  [Gutenberg Poetry
-  Corpus](https://github.com/aparrish/gutenberg-poetry-corpus).  The dataset
-  itself is included and the `prep-poetry-sample-data.ipynb` notebook shows how
-  to prepare the dataset from scratch. I used
-  [BPEmb](https://nlp.h-its.org/bpemb/)'s SentencePiece model to tokenize the
-  dataset before training. (I didn't end up using BPEmb's pre-trained
-  embeddings during training. That's a project for another day, I think! But it
-  was helpful for various reasons to have a fixed vocabulary size.)
+* I modified the code so it's possible to train with the SentencePiece models
+  and pre-trained embeddings included with
+  [BPEmb](https://nlp.h-its.org/bpemb/). Using this functionality, I trained a
+  model on one million lines of poetry sampled from the [Gutenberg Poetry
+  Corpus](https://github.com/aparrish/gutenberg-poetry-corpus). [Here's a ZIP
+  file containing the tokenized dataset, a pre-trained model, and
+  hyperparameters for training the
+  model](http://static.decontextualize.com/vae-lagging-poetry_1m_sample-dataset-and-model.zip)
+  (116MB). (To use, download this file and decompress in this directory.) This
+  model uses BPEmb's English model with 200-dimensional vectors and a
+  vocabulary size of 25000. The included notebook
+  `prep-poetry-sample-data.ipynb` shows how to prepare your own dataset from
+  this corpus with a different number of lines of poetry or different
+  vocabulary sizes/dimensions.
 * The `vaesampler.py` file defines a class `BPEmbVaeSampler` which makes it
   easy to programmatically sample and reconstruct sentences from the included
   pre-trained model, including code to stitch text back together from the
@@ -51,6 +56,7 @@ hopefully for others' uses as well.
 * The training code in `text.py` now saves the model weights on every epoch. (I
   found that it was helpful to be able to pick-and-choose between epochs, based
   on the reconstruction and KL loss figures.)
+* The `MonoTextData` class will now read from gzipped datasets.
 * The included `requirements.txt` should be all you need to get the code and
   model up and running.
 
