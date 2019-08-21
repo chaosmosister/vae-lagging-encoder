@@ -1,9 +1,9 @@
-name: rwet
+name: vae-lagging-encoder 
 channels:
   - conda-forge
 dependencies:
   - python
-  - torch
+  - pytorch
   - torchvision
   - numpy
   - tqdm
