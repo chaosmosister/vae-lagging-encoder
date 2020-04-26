@@ -5,16 +5,14 @@ import runway
 
 from vaesampler import BPEmbVaeSampler
 
-model_path = "./wake_aggressive1_kls0.10_warm10_0_0_783435.pt"
-
-@runway.setup
+@runway.setup(options={'checkpoint': runway.file(extension='.pt')})
 def setup():
     use_gpu = torch.cuda.is_available()
     config_file = "config.config_wake"
     params = argparse.Namespace(**importlib.import_module(config_file).params)
     model = BPEmbVaeSampler(lang=params.bpemb['lang'],
             vs=params.bpemb['vs'], dim=params.bpemb['dim'],
-            decode_from=model_path, params=params, cuda=use_gpu)
+            decode_from=load_model_from_checkpoint(checkpoint_path), params=params, cuda=use_gpu)
     return model
 
 @runway.command('generate',
