@@ -14,9 +14,9 @@ The code seperates optimization of encoder and decoder in VAE, and performs more
 
 Please contact junxianh@cs.cmu.edu if you have any questions.
 
-<img align="left" src="images/basic_single.gif" width="420" height="420" />
+<img align="left" src="images/basic_single.gif" width="400" height="400" />
 
-<img align="right" src="images/aggr_single.gif" width="420" height="420" />
+<img align="right" src="images/aggr_single.gif" width="400" height="400" />
 
 <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;**(a) basic VAE training** &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;**(b) Aggressive VAE training**
@@ -68,6 +68,12 @@ begin with is Robin Sloan's brilliant [Voyages in Sentence
 Space](https://www.robinsloan.com/voyages-in-sentence-space/).
 
 And now back to the original README!
+
+## Shantam's Changes
+
+A small note and then back to the original README!
+
+A big thank you to Allison Parrish for this incredibly helpful code, and to the researchers as well. I have used the code as is with a different dataset, thereby generating a different model for porting into RunwayML. My dataset is much smaller, as it is the enitrety of the text of James Joyce's [Finnegans Wake](https://archive.org/stream/finneganswake00joycuoft/finneganswake00joycuoft_djvu.txt). This model forms a crucial part of a larger project, still underway, titled **The Chaosmos Project**, which will convert ambient sound and noise to pieces of Joycean Wakese. 
 
 ## Posterior Mean Space
 Our approach is inspired by the definition of "posterior mean space", which helps observe the posterior status over course of training and analyze VAE training behavior from the perspective of training dynamics. In the paper we experimented with a toy dataset and a scalar latent variable, so that posterior mean space is on a 2-d plane.
