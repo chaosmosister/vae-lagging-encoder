@@ -8,4 +8,4 @@ spec:
 build_steps:
     - pip install -r requirements.txt
     - python download_bpemb.py
-    - curl -L -O https://buffalo.box.com/shared/static/0e7qwdfkvi05nys25y31ty6365amrkpw.pt
+    - curl -L https://buffalo.box.com/shared/static/0e7qwdfkvi05nys25y31ty6365amrkpw.pt -o wake_aggressive1_kls0.10_warm10_0_0_783435.pt
