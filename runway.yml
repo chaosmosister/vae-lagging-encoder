@@ -8,5 +8,4 @@ spec:
 build_steps:
     - pip install -r requirements.txt
     - python download_bpemb.py
-    - curl -L -O https://buffalo.box.com/shared/static/1nlpki0fmbn54brzo8w21ufrenxzfmd0.gz
-    - tar xvfz wake-dataset-and-model.tar.gz
+    - curl -L -O https://buffalo.box.com/shared/static/0e7qwdfkvi05nys25y31ty6365amrkpw.pt
