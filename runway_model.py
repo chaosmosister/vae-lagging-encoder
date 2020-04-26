@@ -5,7 +5,7 @@ import runway
 
 from vaesampler import BPEmbVaeSampler
 
-model_path = "./wake_aggressive1_kls0.10_warm10_0_0_783435.pt"
+model_path = "wake_aggressive1_kls0.10_warm10_0_0_783435.pt"
 
 @runway.setup
 def setup():
